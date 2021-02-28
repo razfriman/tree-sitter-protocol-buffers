@@ -11,7 +11,7 @@ module.exports = grammar({
     rpc: ($) =>
       seq(
         "rpc",
-        alias($.ident, 'rpcName'),
+        alias($.ident, "rpcName"),
         "(",
         optional("stream"),
         $.messageType,
@@ -26,7 +26,7 @@ module.exports = grammar({
     service: ($) =>
       seq(
         "service",
-        alias($.ident, 'serviceName'),
+        alias($.ident, "serviceName"),
         "{",
         choice($.option, $.rpc, $.emptyStatement),
         "}"
@@ -46,9 +46,9 @@ module.exports = grammar({
         ),
         "}"
       ),
-    message: ($) => prec.left(seq("message", alias($.ident, 'messageName'), $.messageBody)),
-
-    enumValueOption: ($) => seq(alias($.ident, 'optionName'), "=", $.constant),
+    message: ($) =>
+      seq("message", alias($.ident, "messageName"), $.messageBody),
+    enumValueOption: ($) => seq(alias($.ident, "optionName"), "=", $.constant),
     enumField: ($) =>
       seq(
         $.ident,
@@ -62,20 +62,19 @@ module.exports = grammar({
       ),
     enumBody: ($) =>
       seq("{", choice($.option, $.enumField, $.emptyStatement), "}"),
-    enum: ($) => seq("enum", alias($.ident, 'enumName'), $.enumBody),
-
-    fieldNames: ($) => seq(alias($.ident, 'fieldName'), repeat(seq(",", alias($.ident, 'fieldName')))),
-
+    enum: ($) => seq("enum", alias($.ident, "enumName"), $.enumBody),
+    fieldNames: ($) =>
+      seq(
+        alias($.ident, "fieldName"),
+        repeat(seq(",", alias($.ident, "fieldName")))
+      ),
     range: ($) => seq($.intLit, optional(seq("to", choice($.intLit, "max")))),
-
     ranges: ($) => seq($.range, repeat(seq(",", $.range))),
-
     reserved: ($) => seq("reserved", choice($.ranges, $.fieldNames), ";"),
-
     oneof: ($) =>
       seq(
         "oneof",
-        alias($.ident, 'oneofName'),
+        alias($.ident, "oneofName"),
         "{",
         repeat(choice($.option, $.oneofField, $.emptyStatement)),
         "}"
@@ -83,7 +82,7 @@ module.exports = grammar({
     oneofField: ($) =>
       seq(
         $.type,
-        $.fieldName,
+        alias($.ident, "fieldName"),
         "=",
         $.fieldNumber,
         optional(seq("[", $.fieldOptions, "]")),
@@ -97,7 +96,7 @@ module.exports = grammar({
         ",",
         $.type,
         ">",
-        $.mapName,
+        alias($.ident, "mapName"),
         "=",
         $.fieldNumber,
         optional(seq("[", $.fieldOptions, "]")),
@@ -118,20 +117,16 @@ module.exports = grammar({
         "bool",
         "string"
       ),
-
-    ident: ($) => prec.left(seq($.letter, repeat(choice($.letter, $.decimalDigit, "_")))),
+    ident: ($) => seq($.letter, repeat(choice($.letter, $.decimalDigit, "_"))),
     fullIdent: ($) => seq($.ident, repeat(seq(".", $.ident))),
-    // messageName: ($) => alias($.ident, 'messageName'),
-    // enumName: ($) => alias($.ident, 'messageName'),
-    // fieldName: ($) => alias($.ident, 'messageName'),
-    // oneofName: ($) => alias($.ident, 'messageName'),
-    // mapName: ($) => alias($.ident, 'messageName'),
-    // serviceName: ($) => alias($.ident, 'messageName'),
-    // rpcName: ($) => alias($.ident, 'messageName'),
     messageType: ($) =>
-      seq(optional("."), repeat(seq($.ident, ".")), alias($.ident, 'messageName')),
-    enumType: ($) => seq(optional("."), repeat(seq($.ident, ".")), alias($.ident, 'enunName')),
-
+      seq(
+        optional("."),
+        repeat(seq($.ident, ".")),
+        alias($.ident, "messageName")
+      ),
+    enumType: ($) =>
+      seq(optional("."), repeat(seq($.ident, ".")), alias($.ident, "enunName")),
     intLit: ($) => choice($.decimalLit, $.octalLit, $.hexLit),
     decimalLit: ($) => seq($.decimalDigit, repeat($.decimalDigit)),
     octalLit: ($) => seq("0", repeat($.octalDigit)),
@@ -144,18 +139,20 @@ module.exports = grammar({
         "inf",
         "nan"
       ),
-
     decimals: ($) => seq($.decimalDigit, repeat($.decimalDigit)),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), $.decimals),
-
-    strLit: ($) => choice(seq('\'', repeat($.charValue), '\''), seq('"', repeat($.charValue), '"')),
+    strLit: ($) =>
+      choice(
+        seq("'", repeat($.charValue), "'"),
+        seq('"', repeat($.charValue), '"')
+      ),
     charValue: ($) => choice($.hexEscape, $.octEscape, $.charEscape), // or /[^\0\n\\]/
-    hexEscape: ($) => seq('\\', choice('x', 'X'), $.hexDigit, $.hexDigit),
-    octEscape: ($) => seq('\\', $.octalDigit, $.octalDigit, $.octalDigit),
-    charEscape: ($) => seq('\\', choice('a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '\'', '"')),
+    hexEscape: ($) => seq("\\", choice("x", "X"), $.hexDigit, $.hexDigit),
+    octEscape: ($) => seq("\\", $.octalDigit, $.octalDigit, $.octalDigit),
+    charEscape: ($) =>
+      seq("\\", choice("a", "b", "f", "n", "r", "t", "v", "\\", "'", '"')),
     quote: ($) => choice('"', "'"),
-
     emptyStatement: ($) => ";",
     constant: ($) =>
       choice(
@@ -169,13 +166,13 @@ module.exports = grammar({
     import: ($) =>
       seq("import", optional(choice("weak", "public")), $.strLit, ";"),
     package: ($) => seq("package", $.fullIdent, ";"),
-    option: ($) => seq("optiona", alias($.ident, 'optionName'), "=", $.constant, "="),
+    option: ($) =>
+      seq("optiona", alias($.ident, "optionName"), "=", $.constant, "="),
     optionName: ($) =>
       seq(
         choice($.ident, seq("(", $.fullIdent, ")")),
         repeat(seq(".", $.ident))
       ),
-
     type: ($) =>
       choice(
         "double",
@@ -201,7 +198,7 @@ module.exports = grammar({
       seq(
         optional("repeated"),
         $.type,
-        alias($.ident, 'fieldName'),
+        alias($.ident, "fieldName"),
         "=",
         $.fieldNumber,
         optional(seq("[", $.fieldOptions, "]")),
@@ -211,14 +208,13 @@ module.exports = grammar({
       seq(
         optional("repeated"),
         $.type,
-        alias($.ident, 'fieldName'),
+        alias($.ident, "fieldName"),
         "=",
         $.fieldNumber,
         optional(seq("[", $.fieldOptions, "]")),
         ";"
       ),
-    fieldOption: ($) => seq(alias($.ident, 'optionName'), "=", $.constant),
-
+    fieldOption: ($) => seq(alias($.ident, "optionName"), "=", $.constant),
     boolLit: ($) => choice("true", "false"),
     letter: ($) => /[a-z]|[A-Z]/,
     decimalDigit: ($) => /[0-9]/,

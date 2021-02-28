@@ -69,8 +69,13 @@
           "value": "rpc"
         },
         {
-          "type": "SYMBOL",
-          "name": "rpcName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "rpcName"
         },
         {
           "type": "STRING",
@@ -165,8 +170,13 @@
           "value": "service"
         },
         {
-          "type": "SYMBOL",
-          "name": "serviceName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "serviceName"
         },
         {
           "type": "STRING",
@@ -246,32 +256,38 @@
       ]
     },
     "message": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "message"
-          },
-          {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "message"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
             "type": "SYMBOL",
-            "name": "messageName"
+            "name": "ident"
           },
-          {
-            "type": "SYMBOL",
-            "name": "messageBody"
-          }
-        ]
-      }
+          "named": false,
+          "value": "messageName"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "messageBody"
+        }
+      ]
     },
     "enumValueOption": {
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "optionName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "optionName"
         },
         {
           "type": "STRING",
@@ -392,8 +408,13 @@
           "value": "enum"
         },
         {
-          "type": "SYMBOL",
-          "name": "enumName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "enumName"
         },
         {
           "type": "SYMBOL",
@@ -405,8 +426,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "fieldName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "fieldName"
         },
         {
           "type": "REPEAT",
@@ -418,8 +444,13 @@
                 "value": ","
               },
               {
-                "type": "SYMBOL",
-                "name": "fieldName"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "ident"
+                },
+                "named": false,
+                "value": "fieldName"
               }
             ]
           }
@@ -524,8 +555,13 @@
           "value": "oneof"
         },
         {
-          "type": "SYMBOL",
-          "name": "oneofName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "oneofName"
         },
         {
           "type": "STRING",
@@ -565,8 +601,13 @@
           "name": "type"
         },
         {
-          "type": "SYMBOL",
-          "name": "fieldName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "fieldName"
         },
         {
           "type": "STRING",
@@ -635,8 +676,13 @@
           "value": ">"
         },
         {
-          "type": "SYMBOL",
-          "name": "mapName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "mapName"
         },
         {
           "type": "STRING",
@@ -731,37 +777,33 @@
       ]
     },
     "ident": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "letter"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "letter"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "decimalDigit"
-                },
-                {
-                  "type": "STRING",
-                  "value": "_"
-                }
-              ]
-            }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "letter"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "letter"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "decimalDigit"
+              },
+              {
+                "type": "STRING",
+                "value": "_"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
     },
     "fullIdent": {
       "type": "SEQ",
@@ -787,69 +829,6 @@
           }
         }
       ]
-    },
-    "messageName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "enumName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "fieldName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "oneofName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "mapName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "serviceName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
-    },
-    "rpcName": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "ident"
-      },
-      "named": false,
-      "value": "messageName"
     },
     "messageType": {
       "type": "SEQ",
@@ -883,8 +862,13 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "messageName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "messageName"
         }
       ]
     },
@@ -920,8 +904,13 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "enumName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "enunName"
         }
       ]
     },
@@ -1491,8 +1480,13 @@
           "value": "optiona"
         },
         {
-          "type": "SYMBOL",
-          "name": "optionName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "optionName"
         },
         {
           "type": "STRING",
@@ -1652,8 +1646,13 @@
           "name": "type"
         },
         {
-          "type": "SYMBOL",
-          "name": "fieldName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "fieldName"
         },
         {
           "type": "STRING",
@@ -1714,8 +1713,13 @@
           "name": "type"
         },
         {
-          "type": "SYMBOL",
-          "name": "fieldName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "fieldName"
         },
         {
           "type": "STRING",
@@ -1760,8 +1764,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "optionName"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          },
+          "named": false,
+          "value": "optionName"
         },
         {
           "type": "STRING",
