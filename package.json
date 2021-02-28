@@ -1,31 +1,19 @@
 {
-  "name": "tree-sitter-c",
-  "version": "0.16.1",
-  "description": "C grammar for node-tree-sitter",
+  "name": "tree-sitter-protocol-buffers",
+  "version": "0.0.1",
+  "description": "Protocol Buffers grammar for node-tree-sitter",
   "main": "index.js",
-  "keywords": [
-    "parser",
-    "lexer"
-  ],
-  "author": "Max Brunsfeld",
+  "author": "Raz Friman",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.10.0"
+    "nan": "^2.14.2"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.18.0"
+    "tree-sitter-cli": "^0.18.3"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
-    "test-windows": "tree-sitter test"
-  },
-  "tree-sitter": [
-    {
-      "scope": "source.c",
-      "file-types": [
-        "proto"
-      ]
-    }
-  ]
+    "test:examples": "tree-sitter parse examples/* --quiet --time"
+  }
 }
