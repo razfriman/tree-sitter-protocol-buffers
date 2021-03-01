@@ -1496,7 +1496,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "optiona"
+          "value": "option"
         },
         {
           "type": "ALIAS",

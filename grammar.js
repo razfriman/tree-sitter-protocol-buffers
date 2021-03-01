@@ -34,16 +34,18 @@ module.exports = grammar({
     messageBody: ($) =>
       seq(
         "{",
-        repeat(choice(
-          $.field,
-          $.enum,
-          $.message,
-          $.option,
-          $.oneof,
-          $.mapField,
-          $.reserved,
-          $.emptyStatement
-        )),
+        repeat(
+          choice(
+            $.field,
+            $.enum,
+            $.message,
+            $.option,
+            $.oneof,
+            $.mapField,
+            $.reserved,
+            $.emptyStatement
+          )
+        ),
         "}"
       ),
     message: ($) =>
@@ -117,14 +119,18 @@ module.exports = grammar({
         "bool",
         "string"
       ),
-    ident: ($) => prec.left(seq($.letter, repeat(choice($.letter, $.decimalDigit, "_")))),
+    ident: ($) =>
+      prec.left(seq($.letter, repeat(choice($.letter, $.decimalDigit, "_")))),
     fullIdent: ($) => seq($.ident, repeat(seq(".", $.ident))),
     messageType: ($) =>
-      prec(1, seq(
-        optional("."),
-        repeat(seq($.ident, ".")),
-        alias($.ident, "messageName")
-      )),
+      prec(
+        1,
+        seq(
+          optional("."),
+          repeat(seq($.ident, ".")),
+          alias($.ident, "messageName")
+        )
+      ),
     enumType: ($) =>
       seq(optional("."), repeat(seq($.ident, ".")), alias($.ident, "enunName")),
     intLit: ($) => choice($.decimalLit, $.octalLit, $.hexLit),
@@ -167,7 +173,7 @@ module.exports = grammar({
       seq("import", optional(choice("weak", "public")), $.strLit, ";"),
     package: ($) => seq("package", $.fullIdent, ";"),
     option: ($) =>
-      seq("optiona", alias($.ident, "optionName"), "=", $.constant, "="),
+      seq("option", alias($.ident, "optionName"), "=", $.constant, "="),
     optionName: ($) =>
       seq(
         choice($.ident, seq("(", $.fullIdent, ")")),

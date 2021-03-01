@@ -14,6 +14,15 @@
   "scripts": {
     "build": "tree-sitter generate",
     "test": "tree-sitter test && tree-sitter parse examples/* --quiet --time",
-    "test:examples": "tree-sitter parse examples/* --quiet --time"
-  }
+    "test:examples": "tree-sitter parse examples/* --quiet --time",
+    "test:examples:highlight": "tree-sitter highlight examples/*"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.proto",
+      "file-types": [
+        "proto"
+      ]
+    }
+  ]
 }
