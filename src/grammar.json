@@ -31,8 +31,16 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "syntax"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "syntax"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -213,41 +221,44 @@
           "value": "{"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "field"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "enum"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "message"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "option"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "oneof"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "mapField"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "reserved"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "emptyStatement"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "field"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "enum"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "message"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "option"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "oneof"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "mapField"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reserved"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "emptyStatement"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
@@ -777,33 +788,37 @@
       ]
     },
     "ident": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "letter"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "letter"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "decimalDigit"
-              },
-              {
-                "type": "STRING",
-                "value": "_"
-              }
-            ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "letter"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "letter"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "decimalDigit"
+                },
+                {
+                  "type": "STRING",
+                  "value": "_"
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "fullIdent": {
       "type": "SEQ",
@@ -831,46 +846,50 @@
       ]
     },
     "messageType": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "."
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
             "members": [
-              {
-                "type": "SYMBOL",
-                "name": "ident"
-              },
               {
                 "type": "STRING",
                 "value": "."
+              },
+              {
+                "type": "BLANK"
               }
             ]
-          }
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "ident"
           },
-          "named": false,
-          "value": "messageName"
-        }
-      ]
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "ident"
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                }
+              ]
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "ident"
+            },
+            "named": false,
+            "value": "messageName"
+          }
+        ]
+      }
     },
     "enumType": {
       "type": "SEQ",

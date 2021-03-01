@@ -5,7 +5,7 @@ module.exports = grammar({
     topLevelDef: ($) => choice($.message, $.enum, $.service),
     proto: ($) =>
       seq(
-        $.syntax,
+        optional($.syntax),
         choice($.import, $.package, $.option, $.topLevelDef, $.emptyStatement)
       ),
     rpc: ($) =>
@@ -34,7 +34,7 @@ module.exports = grammar({
     messageBody: ($) =>
       seq(
         "{",
-        choice(
+        repeat(choice(
           $.field,
           $.enum,
           $.message,
@@ -43,7 +43,7 @@ module.exports = grammar({
           $.mapField,
           $.reserved,
           $.emptyStatement
-        ),
+        )),
         "}"
       ),
     message: ($) =>
@@ -117,14 +117,14 @@ module.exports = grammar({
         "bool",
         "string"
       ),
-    ident: ($) => seq($.letter, repeat(choice($.letter, $.decimalDigit, "_"))),
+    ident: ($) => prec.left(seq($.letter, repeat(choice($.letter, $.decimalDigit, "_")))),
     fullIdent: ($) => seq($.ident, repeat(seq(".", $.ident))),
     messageType: ($) =>
-      seq(
+      prec(1, seq(
         optional("."),
         repeat(seq($.ident, ".")),
         alias($.ident, "messageName")
-      ),
+      )),
     enumType: ($) =>
       seq(optional("."), repeat(seq($.ident, ".")), alias($.ident, "enunName")),
     intLit: ($) => choice($.decimalLit, $.octalLit, $.hexLit),
